@@ -44,7 +44,6 @@ public class Autor {
     }
 
     public void setNombre(String nombre) {
-       //formatear a Mayusculas
        //formatear a Inicia con Mayuscula
        String nombreMayuscula = nombre.toUpperCase();
         this.nombre = nombre;

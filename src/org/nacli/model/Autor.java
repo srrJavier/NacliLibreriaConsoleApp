@@ -9,7 +9,7 @@ public class Autor {
     biografia text
     */
     
-    String idAutor;
+    int idAutor;
     String nombre;
     String apellido;
     String nacionalidad;
@@ -20,7 +20,7 @@ public class Autor {
     public Autor() {
     }
     //lleno con parametros
-    public Autor(String idAutor, String nombre, String apellido, String nacionalidad, String biografia) {
+    public Autor(int idAutor, String nombre, String apellido, String nacionalidad, String biografia) {
         this.idAutor = idAutor;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -31,11 +31,11 @@ public class Autor {
     
     //getter and setters:
 
-    public String getIdAutor() {
+    public int getIdAutor() {
         return idAutor;
     }
 
-    public void setIdAutor(String idAutor) {
+    public void setIdAutor(int idAutor) {
         this.idAutor = idAutor;
     }
 

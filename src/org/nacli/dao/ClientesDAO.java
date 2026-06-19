@@ -1,13 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
+
 package org.nacli.dao;
 
-/**
- *
- * @author informatica
- */
+import java.util.List;
+import org.nacli.model.clientes;
+
+
 public interface ClientesDAO {
-    
+    //firmas de metodos 
+    boolean insetar(clientes cliente);
+    List<clientes> listar();
+    clientes buscar(long cui);
+    boolean actualizar(clientes cliente);
+    boolean eliminar (long cui);
 }

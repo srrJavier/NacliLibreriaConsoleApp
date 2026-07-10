@@ -12,5 +12,10 @@ public interface AutorDAO {
     Autor BuscarPorID(int idAutor);
     boolean actualizar(Autor autor);
     boolean eliminar(int idAutor);
+
+    public Autor buscarPorID(Autor autor);
+
+    public List<Autor> listarTodos();
     
+
 }

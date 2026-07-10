@@ -53,7 +53,7 @@ public class AutorConsoleView {
     }
     
     //mostrar el detalle de un CLIENTE
-    public void mostrarAutorte(Autor autor){
+    public void mostrarAutor(Autor autor){
         System.out.println("--- DATOS DEL AUTOR ---");
         System.out.println("ID: " + autor.getIdAutor());
         System.out.println("NOMBRE: " + autor.getNombre());
@@ -66,17 +66,17 @@ public class AutorConsoleView {
     public void mostrarListaClientes(List<Autor> autor){
         System.out.println("--- LISTA DE AUTOR ---");
         //tabla usando la propiedad %-[tamaño de columa]s
-        System.out.printf("%-10s %-10s %-10s %-10s", "ID","NOMBRE","APELLIDO","NACIONALIDAD", "BIOGRAFIA");
-        
+        System.out.printf("%-15s %-10s %-10s %-10s\n", "CUI","NOMBRE","APELLIDO","CORREO");        
         for (Autor Autor : autor) {
-            System.out.printf("%-10s %-10s %-10s %-10s",
-                    Autor.getIdAutor(), Autor.getNombre(), Autor.getApellido(), Autor.getNacionalidad());
+        System.out.printf("%-10s %-10s %-10s %-10s\n",
+         Autor.getIdAutor(), Autor.getNombre(), Autor.getApellido(), Autor.getNacionalidad());
         }
     }
     
     //para mostrar mensaje personalizado
     public void mostrarMensaje(String mensaje){
-        System.out.println(mensaje);
+        System.out.println(" --- fin de autores ---\n");
     }
+
     
 }

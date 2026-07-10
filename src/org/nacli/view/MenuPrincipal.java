@@ -1,6 +1,7 @@
 package org.nacli.view;
 import org.nacli.util.Conexion;
 import java.util.Scanner;
+import org.nacli.controller.AutorController;
 
 public class MenuPrincipal {
  Scanner leer = new Scanner(System.in);
@@ -16,10 +17,12 @@ public class MenuPrincipal {
             opcion = Integer.parseInt(leer.nextLine());
             switch (opcion) {
                 case 1:
-                    System.out.println("Cliente");
-                    break;
-                case 2:
                     System.out.println("Autor");
+                        AutorConsoleView vistaAutor = new AutorConsoleView();
+                        AutorController controladorAutor = new AutorController(vistaAutor);
+                        controladorAutor.iniciar();
+                case 2:
+                    System.out.println("Cliente");
                     break;
                 case 3:
                     System.out.println("Categoria");

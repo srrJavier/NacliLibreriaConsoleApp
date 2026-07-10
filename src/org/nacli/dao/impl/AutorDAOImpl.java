@@ -13,7 +13,7 @@ import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 
-public class AutorDAOImpl implements AutorDAO{
+public abstract class AutorDAOImpl implements AutorDAO {
 
     @Override
     public List<Autor> ListarTodos() {
@@ -22,9 +22,7 @@ public class AutorDAOImpl implements AutorDAO{
         //mapea el resultado de la consulta a objeto y lo agrega a la lista
         String consulta = "{call sp_Listarautores()}";
         //retornamos una lista
-       try (Connection conexion = Conexion.getInstancia().conectar();
-                CallableStatement consultaCall = conexion.prepareCall(consulta);
-                ResultSet tablaResultado = consultaCall.executeQuery();) {
+         try (Connection conexion = Conexion.getInstancia().conectar(); CallableStatement consultaCall = conexion.prepareCall(consulta); ResultSet tablaResultado = consultaCall.executeQuery();) {
         //ciclo para rellenar mi lista
         //verificar cada filta del result set
         //va a guarda cada celda dentro de cada atributo de mi objeto
@@ -38,8 +36,8 @@ public class AutorDAOImpl implements AutorDAO{
                 ));
             }
          } catch (SQLException e) {
-             System.err.print("Error al listar Clientes: " + e.getMessage());
-         }
+            System.err.print("Error al listar Autores: " + e.getMessage());
+        }
         
         //retornamos un alista
         return autor;
@@ -52,6 +50,27 @@ public class AutorDAOImpl implements AutorDAO{
 
     @Override
     public Autor BuscarPorID(int idAutor) {
+        //objeto
+        Autor autor = new Autor();
+
+        //consulta
+        String consultaSQL = "{call sp_buscarautor(?)}";
+        //mapeamos el ResultSet al Objeto(autor) segun sus atributos y la fila devulta
+        try (Connection conexion = Conexion.getInstancia().conectar(); CallableStatement consultaCall = conexion.prepareCall(consultaSQL);) {
+            consultaCall.setLong(1, idAutor);
+            ResultSet tablaResultado = consultaCall.executeQuery();
+            if (tablaResultado.next()) {
+                autor.setIdAutor(tablaResultado.getInt("id_autor"));
+                autor.setNombre(tablaResultado.getString("nombre_autor"));
+                autor.setApellido(tablaResultado.getString("apellido_autor"));
+                autor.setNacionalidad(tablaResultado.getString("nacionalidad"));
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            System.err.print("Error al buscar Autpr: " + e.getMessage());
+        }
+        //retornamos el objeto
         return null;
     }
 

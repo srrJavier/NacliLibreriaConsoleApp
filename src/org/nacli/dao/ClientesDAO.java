@@ -12,4 +12,8 @@ public interface ClientesDAO {
     clientes buscar(long cui);
     boolean actualizar(clientes cliente);
     boolean eliminar (long cui);
+
+    public List<clientes> listarTodos();
+
+    public clientes buscarPorId(long cui);
 }

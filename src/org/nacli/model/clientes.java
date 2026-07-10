@@ -1,21 +1,39 @@
 
 package org.nacli.model;
 
+//POJO: Nombre, atributos, constructores, getters y setters
 public class clientes {
+
+    /*
+    create table clientes(
+        cui bigint primary key,
+        nombre_cliente varchar(100),
+        apellido_cliente varchar(100),
+        correo_electronico varchar(100)
+    );
+     */
+
+    //atributos de clase
     long cui;
     String nombre;
     String apellido;
     String correoElectronico;
 
+    //constructores: asignación de datos, instanciar objetos
+    //vacio
     public clientes() {
     }
-
+    //lleno o con parametros
     public clientes(long cui, String nombre, String apellido, String correoElectronico) {
         this.cui = cui;
         this.nombre = nombre;
         this.apellido = apellido;
         this.correoElectronico = correoElectronico;
     }
+    //personalizador
+    
+    
+    //getter and setters
 
     public long getCui() {
         return cui;
@@ -25,15 +43,15 @@ public class clientes {
         this.cui = cui;
     }
 
-    public String getNombre() {
+    public String getNombre() {        
         return nombre;
     }
 
     public void setNombre(String nombre) {
-        // formatear a mayuscula
-        // formatear a inicia mayuscula 
+        //formatear a Mayusucual
         String nombreMayusculas = nombre.toUpperCase();
-        this.nombre = nombre;
+        //formatear a Inicia con Mayusuculas
+        this.nombre = nombreMayusculas;
     }
 
     public String getApellido() {
@@ -51,5 +69,6 @@ public class clientes {
     public void setCorreoElectronico(String correoElectronico) {
         this.correoElectronico = correoElectronico;
     }
-         
+    
+    
 }

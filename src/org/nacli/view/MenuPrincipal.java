@@ -1,9 +1,10 @@
 package org.nacli.view;
-import org.nacli.util.Conexion;
 import java.util.Scanner;
+import org.nacli.controller.ClienteController;
 
 public class MenuPrincipal {
- Scanner leer = new Scanner(System.in);
+    Scanner leer = new Scanner(System.in);
+    
     public void iniciar(){
         int opcion = 0;
         do {
@@ -14,9 +15,13 @@ public class MenuPrincipal {
             System.out.println("5. Modulo Editoriales");
             System.out.println("4. Salir");
             opcion = Integer.parseInt(leer.nextLine());
+            
             switch (opcion) {
                 case 1:
-                    System.out.println("Cliente");
+                        System.out.println("Cliente");
+                        ClienteConsoleView vistaCliente = new ClienteConsoleView();
+                        ClienteController controladorCliente = new ClienteController(vistaCliente);
+                        controladorCliente.iniciar();
                     break;
                 case 2:
                     System.out.println("Autor");
@@ -33,6 +38,7 @@ public class MenuPrincipal {
                 default:
                     System.out.println("NO existe esta opción");
             }
+            
         } while (opcion != 4);
-   }
+    }
 }

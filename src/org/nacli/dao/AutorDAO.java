@@ -8,8 +8,8 @@ public interface AutorDAO {
     //firmas de metodos
     //CRUD
     boolean insertar(Autor autor);
-    List<Autor> listar();
-    Autor buscar(int idAutor);
+    List<Autor> ListarTodos();
+    Autor BuscarPorID(int idAutor);
     boolean actualizar(Autor autor);
     boolean eliminar(int idAutor);
     

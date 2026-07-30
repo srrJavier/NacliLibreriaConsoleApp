@@ -9,10 +9,7 @@ import org.nacli.controller.EmpleadoController;
 import org.nacli.model.Empleado;
 import org.nacli.view.EmpleadoView;
 
-/**
- *
- * @author aruba
- */
+
 public class Principal extends Application{
 
     public static void main(String[] args) {
@@ -28,8 +25,7 @@ public class Principal extends Application{
         stage.setScene(escena);
         stage.show();
         
-//        Empleado emp = new Empleado();
-//        emp.id = "12";
+
     }
 
 }

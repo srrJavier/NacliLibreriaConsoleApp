@@ -35,10 +35,10 @@ public class AutorController {
 
                     break;
                 case 2:
-                    listar();
+                    listarTodos();
                     break;
                 case 3:
-                    buscar();
+                    buscarPorID();
                     break;
                 case 4:
 
@@ -55,11 +55,11 @@ public class AutorController {
         } while (opcion != 6);
     }
 
-    private void listar() {
-      vista.mostrarListaClientes(dao.listarTodos());
+    private void listarTodos() {
+      vista.mostrarListaAutor(dao.listarTodos());
     }
 
-    private void buscar() {
+    private void buscarPorID() {
         long idAutor = vista.solicitarID();
         Autor autor = null;
         autor = dao.buscarPorID(autor);

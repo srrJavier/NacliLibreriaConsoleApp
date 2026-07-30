@@ -63,7 +63,7 @@ public class AutorConsoleView {
     }
     
     //mostrar la lista de CLIENTES -- lista de objeto List<T>, ArrayList<Cliente>
-    public void mostrarListaClientes(List<Autor> autor){
+    public void mostrarListaAutor(List<Autor> autor){
         System.out.println("--- LISTA DE AUTOR ---");
         //tabla usando la propiedad %-[tamaño de columa]s
         System.out.printf("%-15s %-10s %-10s %-10s\n", "CUI","NOMBRE","APELLIDO","CORREO");        

@@ -17,13 +17,13 @@ public class MenuPrincipal {
             opcion = Integer.parseInt(leer.nextLine());
             switch (opcion) {
                 case 1:
-                    System.out.println("Autor");
+                    System.out.println("Cliente");
                         AutorConsoleView vistaAutor = new AutorConsoleView();
                         AutorController controladorAutor = new AutorController(vistaAutor);
                         controladorAutor.iniciar();
                 case 2:
-                    System.out.println("Cliente");
-                    break;
+                    System.out.println("Autores");
+                    break; 
                 case 3:
                     System.out.println("Categoria");
                     break;

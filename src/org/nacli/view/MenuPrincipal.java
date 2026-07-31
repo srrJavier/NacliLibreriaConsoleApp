@@ -1,41 +1,81 @@
 package org.nacli.view;
-import org.nacli.util.Conexion;
-import java.util.Scanner;
-import org.nacli.controller.AutorController;
 
+import java.util.Scanner;
+
+import org.nacli.controller.AutoresController;
+ 
 public class MenuPrincipal {
- Scanner leer = new Scanner(System.in);
+
+    Scanner leer = new Scanner(System.in);
+ 
     public void iniciar(){
+ 
         int opcion = 0;
+ 
         do {
+ 
             System.out.println("Bienvenido, selecciones una opcion!");
+ 
             System.out.println("1. Modulo Cliente");
+ 
             System.out.println("2. Modulo Autores");
+ 
             System.out.println("3. Modulo Categorias");
+ 
             System.out.println("5. Modulo Editoriales");
+ 
             System.out.println("4. Salir");
+ 
             opcion = Integer.parseInt(leer.nextLine());
+ 
             switch (opcion) {
+ 
                 case 1:
+ 
                     System.out.println("Cliente");
-                        AutorConsoleView vistaAutor = new AutorConsoleView();
-                        AutorController controladorAutor = new AutorController(vistaAutor);
-                        controladorAutor.iniciar();
+ 
+                    break;
+ 
                 case 2:
-                    System.out.println("Autores");
-                    break; 
+ 
+                    System.out.println("Autor");
+
+                    AutoresConsoleView vistaAutores = new AutoresConsoleView();
+ 
+                    AutoresController controladorAutores = new AutoresController(vistaAutores);
+ 
+                    controladorAutores.iniciar();
+
+                    break;
+ 
                 case 3:
+ 
                     System.out.println("Categoria");
+ 
                     break;
+ 
                 case 4:
+ 
                     System.out.println("Adiós Vaquero!");
+ 
                     break;   
+ 
                 case 5:
+ 
                     System.out.println("Editoriales");
+ 
                     break;
+ 
                 default:
+ 
                     System.out.println("NO existe esta opción");
+ 
             }
+ 
         } while (opcion != 4);
-   }
+
+    }
+ 
 }
+
+ 

@@ -1,90 +1,97 @@
-
 package org.nacli.dao.impl;
-
-import org.nacli.model.Autor;
-import org.nacli.dao.AutorDAO;
+ 
 import org.nacli.util.Conexion;
-
+import org.nacli.model.Autores;
+import org.nacli.dao.AutoresDAO;
+ 
 import java.util.List;
 import java.util.ArrayList;
-import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
-
-public abstract class AutorDAOImpl implements AutorDAO {
-
-    @Override
-    public List<Autor> ListarTodos() {
-        //crear nuestra consulta
-        List<Autor> autor = new ArrayList<>();//null
-        //mapea el resultado de la consulta a objeto y lo agrega a la lista
-        String consulta = "{call sp_Listarautores()}";
-        //retornamos una lista
-         try (Connection conexion = Conexion.getInstancia().conectar(); CallableStatement consultaCall = conexion.prepareCall(consulta); ResultSet tablaResultado = consultaCall.executeQuery();) {
-        //ciclo para rellenar mi lista
-        //verificar cada filta del result set
-        //va a guarda cada celda dentro de cada atributo de mi objeto
-        while (tablaResultado.next()) {
-                autor.add(new Autor(
-                        (int) tablaResultado.getLong("id"),
-                        tablaResultado.getString("nombre_autor"),
-                        tablaResultado.getString("apellido_autor"),
-                        tablaResultado.getString("nacionalidad"),
-                        tablaResultado.getString("biografia")
-                ));
-            }
-         } catch (SQLException e) {
-            System.err.print("Error al listar Autores: " + e.getMessage());
-        }
+ 
         
-        //retornamos un alista
-        return autor;
-    }
-    
+public class AutorDAOImpl implements AutoresDAO{
+ 
     @Override
-    public boolean insertar(Autor autor) {
-        return false;
+    public boolean insertar(Autores autores) {
+     String consulta = "{call sp_insertarautor(?, ?, ?, ?, ?)}";
+        try (Connection conexion = Conexion.getInstancia().conectar();
+             CallableStatement consultaCall = conexion.prepareCall(consulta)) {
+            consultaCall.setLong(1, autores.getId_autor());
+            consultaCall.setString(2, autores.getNombre_autor());
+            consultaCall.setString(3, autores.getNacionalidad());
+            consultaCall.setString(4, autores.getApellido_autor());
+            consultaCall.setString(5, autores.getBiografia());
+            return consultaCall.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.print("Error al crear Autor: " + e.getMessage());
+            return false;
+        }
     }
+ 
+    @Override
+    public List<Autores> listarTodos() {      
+        List<Autores> Autor = new ArrayList<>();
 
+        //CREAR NUESTRA CONSULTA
+        String consulta = "{call sp_listarautores()}";              
+        try (Connection conexion = Conexion.getInstancia().conectar(); CallableStatement consultaCall = conexion.prepareCall(consulta); ResultSet tablaResultado = consultaCall.executeQuery();) {
+              while(tablaResultado.next()){
+                  Autor.add(new Autores(
+                          tablaResultado.getInt("id_autor"),
+                          tablaResultado.getString("nombre_autor"),
+                          tablaResultado.getString("nacionalidad"),
+                          tablaResultado.getString("apellido_autor"),
+                          tablaResultado.getString("biografia")
+                  ));
+              }
+        }catch (SQLException e){
+            System.err.println("ERROR al listar Autores:" + e.getMessage());
+        }        
+
+        //retornamos una lista
+        return Autor;
+    }
+ 
     @Override
-    public Autor BuscarPorID(int idAutor) {
+    public Autores buscarPorId(int id_autor) {
         //objeto
-        Autor autor = new Autor();
-
+        Autores autor = new Autores();
+ 
         //consulta
         String consultaSQL = "{call sp_buscarautor(?)}";
-        //mapeamos el ResultSet al Objeto(autor) segun sus atributos y la fila devulta
+        //mapeamos el ResultSet al Objeto(Cliente) segun sus atributos y la fila devulta
         try (Connection conexion = Conexion.getInstancia().conectar(); CallableStatement consultaCall = conexion.prepareCall(consultaSQL);) {
-            consultaCall.setLong(1, idAutor);
+            consultaCall.setInt(1, id_autor);
             ResultSet tablaResultado = consultaCall.executeQuery();
             if (tablaResultado.next()) {
-                autor.setIdAutor(tablaResultado.getInt("id_autor"));
-                autor.setNombre(tablaResultado.getString("nombre_autor"));
-                autor.setApellido(tablaResultado.getString("apellido_autor"));
+                autor.setId_autor(tablaResultado.getInt("id_autor"));
+                autor.setNombre_autor(tablaResultado.getString("nombre_autor"));
+                autor.setApellido_autor(tablaResultado.getString("apellido_autor"));
                 autor.setNacionalidad(tablaResultado.getString("nacionalidad"));
+                autor.setBiografia(tablaResultado.getString("biografia"));
             } else {
                 return null;
             }
         } catch (SQLException e) {
-            System.err.print("Error al buscar Autpr: " + e.getMessage());
+            System.err.print("Error al buscar Autor: " + e.getMessage());
         }
         //retornamos el objeto
-        return null;
+        return autor;
     }
-
+ 
+        
     @Override
-    public boolean actualizar(Autor autor) {
+    public boolean actualizar(Autores autores) {
         return false;
     }
-
+ 
     @Override
-    public boolean eliminar(int idAutor) {
+    public boolean eliminar(int id_autor) {
         return false;
     }
-    
-    
 }
     
 

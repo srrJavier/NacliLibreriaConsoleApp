@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<BorderPane maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nacli.controller.AutoresFXController">
+   <left>
+      <VBox maxHeight="1.7976931348623157E308" maxWidth="300.0" minWidth="238.0" prefHeight="400.0" prefWidth="238.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Registrar Autor">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <TextField promptText="ID" />
+            <TextField promptText="Nombre" />
+            <TextField promptText="Apellido" />
+            <TextField promptText="Nacionalidad" />
+            <TextField promptText="Biografia" />
+            <HBox prefHeight="92.0" prefWidth="267.0" spacing="10.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#handleGuardar" prefWidth="120.0" text="Guardar" />
+                  <Button mnemonicParsing="false" onAction="#handleLimpiar" prefWidth="120.0" text="Limpiar" />
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="lblMensaje" text="Mesaje" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </left>
+   <center>
+      <VBox prefHeight="400.0" prefWidth="345.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Lista de Autores">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <TableView fx:id="tablaAutor" prefHeight="200.0" prefWidth="331.0">
+              <columns>
+                <TableColumn prefWidth="120.0" text="ID" />
+                <TableColumn prefWidth="140.0" text="Nombre" />
+                  <TableColumn minWidth="20.0" prefWidth="140.0" text="Apellido" />
+                  <TableColumn minWidth="20.0" prefWidth="140.0" text="Nacionalidad" />
+                  <TableColumn prefWidth="200.0" text="Biografia" />
+              </columns>
+            </TableView>
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#handleActualizar" text="Actualizar Tabla" />
+                  <Button mnemonicParsing="false" onAction="#handleVolver" text="Volver al Menú" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

@@ -1,16 +1,22 @@
-
 package org.nacli.dao;
 
 import java.util.List;
 import org.nacli.model.Categoria;
 
 public interface CategoriaDAO {
-    //firmas de metodos
-    //CRUD
-    boolean crear(Categoria cliente);
+
+    // Crear categoría
+    boolean crear(Categoria categoria);
+
+    // Listar categorías
     List<Categoria> listarTodos();
-    Categoria buscarPorId(long cui);
-    boolean actualizar(Categoria cliente);
-    boolean eliminar(long cui);
-    
+
+    // Buscar categoría por ID
+    Categoria buscarPorId(int idCategoria);
+
+    // Actualizar categoría
+    boolean actualizar(Categoria categoria);
+
+    // Eliminar categoría
+    boolean eliminar(int idCategoria);
 }

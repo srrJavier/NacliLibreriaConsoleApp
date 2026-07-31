@@ -1,80 +1,60 @@
 package org.nacli.view;
+
 import java.util.List;
 import java.util.Scanner;
-import org.key.model.Cliente;
+import org.nacli.model.Categoria;
 
-public class ClienteConsoleView {
+public class CategoriaConsoleView {
 
     private final Scanner leer = new Scanner(System.in);
 
-    //metodo para mostrar las opcion de este menu
+    // Método para mostrar el menú
     public int mostrarMenu() {
-        int opcion = 0;
-        // todo el menu
-        System.out.println("--- GESTION DE CLIENTES ---");
-        System.out.println("-1 CREAR nuevo Cliente ---");
-        System.out.println("-2 LISTAR todos los Clientes ---");
-        System.out.println("-3 BUSCAR Cliente por ID ---");
-        System.out.println("-4 MODIFICAR Cliente ---");
-        System.out.println("-5 ELIMINAR nuevo Cliente ---");
-        System.out.println("-6 REGRESAR a menú PRIMCIPAL ---");
-        System.out.print("SELECCIONE UNA OPCION -->");
-        opcion = Integer.parseInt(leer.nextLine());
-        return opcion;
+        System.out.println("--- GESTIÓN DE CATEGORÍAS ---");
+        System.out.println("1. Crear nueva categoría");
+        System.out.println("2. Listar todas las categorías");
+        System.out.println("3. Buscar categoría por nombre");
+        System.out.println("4. Modificar categoría");
+        System.out.println("5. Eliminar categoría");
+        System.out.println("6. Regresar al menú principal");
+        System.out.print("Seleccione una opción: ");
+
+        return Integer.parseInt(leer.nextLine());
     }
 
-    public long solicitarCUI() {
-        System.out.println("Ingrese el CUI del cliente: ");
-        return Long.parseLong(leer.nextLine());
-    }
-
-    //nombreCliente
-    public String solicitarNombreCliente() {
-        String nombre;
-        System.out.println("Ingres el NOMBRE del cliente");
-        nombre = leer.nextLine();
-        return nombre;
-        //return leer.nextLine();
-    }
-
-    //apellidoCliente
-    public String solicitarApellidoCliente() {
-        System.out.println("Ingres el APELLIDO del cliente");
+    // Solicitar nombre de la categoría
+    public String solicitarNombreCategoria() {
+        System.out.print("Ingrese el nombre de la categoría: ");
         return leer.nextLine();
     }
 
-    //correoEctronico
-    public String solicitarCorreoElectronico() {
-        System.out.println("Ingres el CORREO electrónico del cliente");
-        return leer.nextLine();
+    // Solicitar ID de la categoría
+    public int solicitarIdCategoria() {
+        System.out.print("Ingrese el ID de la categoría: ");
+        return Integer.parseInt(leer.nextLine());
     }
-    
-    //mostrar el detalle de un CLIENTE
-    public void mostrarCliente(Cliente cliente){
-        System.out.println("--- DATOS DEL CLIENTE ---");
-        System.out.println("CUI: " + cliente.getCui());
-        System.out.println("NOMBRE: " + cliente.getNombre());
-        System.out.println("APELLIDO: " + cliente.getApellido());
-        System.out.println("CORREO E: "+ cliente.getCorreoElectronico());
-        System.out.println("---\n");
+
+    // Mostrar una categoría
+    public void mostrarCategoria(Categoria categoria) {
+        System.out.println("--- CATEGORÍA ENCONTRADA ---");
+        System.out.println("Nombre: " + categoria.getnombreCategoria());
     }
-    
-    //mostrar la lista de CLIENTES -- lista de objeto List<T>, ArrayList<Cliente>
-    public void mostrarListaClientes(List<Cliente> clientes){
-        System.out.println("--- LISTA DE CLIENTES ---");
-        //tabla usando la propiedad %-[tamaño de columa]s
-        System.out.printf("%-15s %-10s %-10s %-10s\n", "CUI","NOMBRE","APELLIDO","CORREO");
-        
-        for (Cliente cliente : clientes) {
-            System.out.printf("%-10s %-10s %-10s %-10s\n",
-                    cliente.getCui(), cliente.getNombre(), cliente.getApellido(), cliente.getCorreoElectronico());
+
+    // Mostrar lista de categorías
+    public void mostrarListaCategorias(List<Categoria> categorias) {
+        System.out.println("--- LISTA DE CATEGORÍAS ---");
+        System.out.printf("%-10s %-30s%n", "ID", "Nombre");
+
+        for (Categoria categoria : categorias) {
+            System.out.printf("%-10d %n",
+                    categoria.getnombreCategoria());
         }
-        System.out.println(" --- fin de clientes ---\n");
+
+        System.out.println("--- FIN DE LA LISTA ---");
     }
-    
-    //para mostrar mensaje personalizado
-    public void mostrarMensaje(String mensaje){
+
+    // Mostrar mensajes
+    public void mostrarMensaje(String mensaje) {
         System.out.println(mensaje);
     }
-    
 }

@@ -4,71 +4,53 @@ package org.nacli.model;
 //POJO: Nombre, atributos, constructores, getters y setters
 public class Categoria {
 
-    /*
-    create table clientes(
-        cui bigint primary key,
-        nombre_cliente varchar(100),
-        apellido_cliente varchar(100),
-        correo_electronico varchar(100)
-    );
-     */
+    private String nombreCategoria;
+
+    public String getNombreCategoria() {
+        return nombreCategoria;
+    }
+
+    public void setNombreCategoria(String nombreCategoria) {
+        this.nombreCategoria = nombreCategoria;
+    }
 
     //atributos de clase
-    long cui;
-    String nombre;
-    String apellido;
-    String correoElectronico;
+    
+
 
     //constructores: asignación de datos, instanciar objetos
     //vacio
     public Categoria() {
     }
     //lleno o con parametros
-    public Categoria(long cui, String nombre, String apellido, String correoElectronico) {
-        this.cui = cui;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.correoElectronico = correoElectronico;
+    public Categoria(String nombreCategoria) {
+        this.nombreCategoria = nombreCategoria;
     }
     //personalizador
     
     
     //getter and setters
 
-    public long getCui() {
-        return cui;
-    }
-
-    public void setCui(long cui) {
-        this.cui = cui;
-    }
-
     public String getNombre() {        
-        return nombre;
+        return nombreCategoria;
     }
 
     public void setNombre(String nombre) {
         //formatear a Mayusucual
         String nombreMayusculas = nombre.toUpperCase();
         //formatear a Inicia con Mayusuculas
-        this.nombre = nombreMayusculas;
+        this.nombreCategoria = nombreMayusculas;
     }
 
-    public String getApellido() {
-        return apellido;
+    public void setnombreCategoria(String string) {
+       
     }
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
+    public String getnombreCategoria() {
+        
+        return null;
+        
     }
-
-    public String getCorreoElectronico() {
-        return correoElectronico;
-    }
-
-    public void setCorreoElectronico(String correoElectronico) {
-        this.correoElectronico = correoElectronico;
-    }
-    
+  
     
 }

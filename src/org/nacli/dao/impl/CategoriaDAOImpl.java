@@ -1,86 +1,104 @@
 package org.nacli.dao.impl;
 
 import java.util.ArrayList;
-import org.nacli.model.Categoria;
-import org.nacli.dao.CategoriaDAO;
-
-import org.nacli.util.Conexion;
 import java.util.List;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.nacli.dao.CategoriaDAO;
+import org.nacli.model.Categoria;
+import org.nacli.util.Conexion;
+
 public class CategoriaDAOImpl implements CategoriaDAO {
 
     @Override
     public List<Categoria> listarTodos() {
-        //crear lista
-        List<Categoria> categorias = new ArrayList<>();//null
-        //crear nustras consulta
-        String consulta = "{call sp_listarclientes()}";
-        //maperar el resultado de la consulta a objeto y lo agregamos a la lista
-        //try with resources / intentar con recursos --> cierra el recurso al completar el intento
-        //recurso: Conexion, al final se cierra
-        try (Connection conexion = Conexion.getInstancia().conectar(); CallableStatement consultaCall = conexion.prepareCall(consulta); ResultSet tablaResultado = consultaCall.executeQuery();) {
-            //ciclo para rellenar mi lista
-            //verificar cada filta del result set
-            //va a guarda cada celda dentro de cada atributo de mi objeto
+        List<Categoria> categorias = new ArrayList<>();
+
+        String consulta = "{call sp_listarcategorias()}";
+
+        try (Connection conexion = Conexion.getInstancia().conectar();
+             CallableStatement consultaCall = conexion.prepareCall(consulta);
+             ResultSet tablaResultado = consultaCall.executeQuery()) {
+
             while (tablaResultado.next()) {
                 categorias.add(new Categoria(
-                        tablaResultado.getLong("cui"),
-                        tablaResultado.getString("nombre_cliente"),
-                        tablaResultado.getString("apellido_cliente"),
-                        tablaResultado.getString("correo_electronico")
+                        tablaResultado.getString("nombreCategoria")
                 ));
             }
+
         } catch (SQLException e) {
-            System.err.print("Error al listar Clientes: " + e.getMessage());
+            System.err.println("Error al listar categorías: " + e.getMessage());
         }
 
-        //retornamos un alista
         return categorias;
     }
 
+
     @Override
-    public boolean crear(Categoria cliente) {
+public boolean crear(Categoria categoria) {
+
+    String sql = "INSERT INTO categoria(nombreCategoria) VALUES (?)";
+
+    try (Connection conexion = Conexion.getInstancia().conectar();
+         java.sql.PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+        ps.setString(1, categoria.getnombreCategoria());
+
+        int resultado = ps.executeUpdate();
+
+        System.out.println("Filas insertadas: " + resultado);
+
+        return resultado > 0;
+
+    } catch (SQLException e) {
+        System.err.println("ERROR AL INSERTAR:");
+        e.printStackTrace();
         return false;
     }
+}
+
 
     @Override
-    public Categoria buscarPorId(long cui) {
-        //objeto
+    public Categoria buscarPorId(int idCategoria) {
+
         Categoria categoria = new Categoria();
 
-        //consulta
-        String consultaSQL = "{call sp_buscarcliente(?)}";
-        //mapeamos el ResultSet al Objeto(Cliente) segun sus atributos y la fila devulta
-        try (Connection conexion = Conexion.getInstancia().conectar(); CallableStatement consultaCall = conexion.prepareCall(consultaSQL);) {
-            consultaCall.setLong(1, cui);
+        String consultaSQL = "{call sp_buscategoria(?)}";
+
+        try (Connection conexion = Conexion.getInstancia().conectar();
+             CallableStatement consultaCall = conexion.prepareCall(consultaSQL)) {
+
+            consultaCall.setInt(1, idCategoria);
+
             ResultSet tablaResultado = consultaCall.executeQuery();
+
             if (tablaResultado.next()) {
-                categoria.setCui(tablaResultado.getLong("cui"));
-                categoria.setNombre(tablaResultado.getString("nombre_cliente"));
-                categoria.setApellido(tablaResultado.getString("apellido_cliente"));
-                categoria.setCorreoElectronico(tablaResultado.getString("correo_electronico"));
+                categoria.setnombreCategoria(
+                        tablaResultado.getString("nombreCategoria")
+                );
             } else {
                 return null;
             }
+
         } catch (SQLException e) {
-            System.err.print("Error al buscar Cliente: " + e.getMessage());
+            System.err.println("Error al buscar categoría: " + e.getMessage());
         }
-        //retornamos el objeto
+
         return categoria;
     }
 
+
     @Override
-    public boolean actualizar(Categoria cliente) {
+    public boolean actualizar(Categoria categoria) {
         return false;
     }
 
+
     @Override
-    public boolean eliminar(long cui) {
+    public boolean eliminar(int idCategoria) {
         return false;
     }
-
 }

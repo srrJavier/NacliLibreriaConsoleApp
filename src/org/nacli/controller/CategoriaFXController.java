@@ -2,6 +2,7 @@ package org.nacli.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,11 +12,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+
 import org.nacli.dao.CategoriaDAO;
 import org.nacli.dao.impl.CategoriaDAOImpl;
 import org.nacli.model.Categoria;
 import org.nacli.system.Main;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 public class CategoriaFXController implements Initializable {
 
@@ -28,92 +30,164 @@ public class CategoriaFXController implements Initializable {
     @FXML
     private TableView<Categoria> tablaCategoria;
 
+    @FXML
+    private TableColumn<Categoria, String> colnombreCategoria;
+
     private final CategoriaDAO categoriaDAO = new CategoriaDAOImpl();
-    private final ObservableList<Categoria> listaCategoria = FXCollections.observableArrayList();
+
+    private final ObservableList<Categoria> listaCategoria =
+            FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        configurarTabla();
         cargarTabla();
         seleccionarFila();
-   colnombreCategoria.setCellValueFactory(new PropertyValueFactory<>("nombreCategoria"));
-
     }
 
-    private void cargarTabla() {
-        listaCategoria.setAll(categoriaDAO.listarTodos());
+    private void configurarTabla() {
+
+        colnombreCategoria.setCellValueFactory(
+                new PropertyValueFactory<>("nombreCategoria")
+        );
+
         tablaCategoria.setItems(listaCategoria);
     }
 
-    private void seleccionarFila() {
-        tablaCategoria.getSelectionModel().selectedItemProperty().addListener(
-                (obs, oldSelection, newSelection) -> {
-                    if (newSelection != null) {
-                        txtNombre.setText(newSelection.getnombreCategoria());
-                    }
-                });
+    private void cargarTabla() {
+
+        try {
+
+            listaCategoria.setAll(
+                    categoriaDAO.listarTodos()
+            );
+
+        } catch (Exception e) {
+
+            mostrarError(
+                    "Error al listar categorías:\n"
+                    + e.getMessage()
+            );
+        }
+    }
+
+  private void seleccionarFila() {
+
+        tablaCategoria.getSelectionModel()
+                .selectedItemProperty()
+                .addListener(
+                        (obs, oldSelection, newSelection) -> {
+
+                            if (newSelection != null) {
+
+                                txtNombre.setText(
+                                        newSelection.getNombreCategoria()
+                                );
+                            }
+                        }
+                );
     }
 
     @FXML
     private void handleGuardar() {
- 
+
         try {
- 
-            if (txtNombre.getText().trim().isEmpty()) {
- 
-                mostrarError("Todos los campos son obligatorios.");
+
+            String nombre = txtNombre.getText().trim();
+
+            if (nombre.isEmpty()) {
+
+                mostrarError(
+                        "El nombre de la categoría es obligatorio."
+                );
+
                 return;
             }
- 
-            Categoria cliente = new Categoria();
- 
-            cliente.setNombre(txtNombre.getText().trim());
- 
-            if (categoriaDAO.crear(cliente)) {
- 
-                lblMensaje.setText("Cliente registrado correctamente.");
- 
+
+            // Crear categoría
+            Categoria categoria = new Categoria();
+
+            categoria.setNombreCategoria(nombre);
+
+            // Guardar
+            if (categoriaDAO.crear(categoria)) {
+
+                lblMensaje.setText(
+                        "Categoría registrada correctamente."
+                );
+
                 cargarTabla();
- 
+
                 limpiarFormulario();
+
             } else {
-                mostrarError("No fue posible registrar la categoria.");
+
+                mostrarError(
+                        "No fue posible registrar la categoría."
+                );
             }
-        } catch (NumberFormatException e) {
-            mostrarError("El nombre de la cxateogria no existe.");
+
         } catch (Exception e) {
-            mostrarError(e.getMessage());
+
+            mostrarError(
+                    "Error al guardar la categoría:\n"
+                    + e.getMessage()
+            );
         }
     }
 
     @FXML
     private void handleLimpiar() {
+
         limpiarFormulario();
+
         lblMensaje.setText("");
     }
 
-    @FXML
-    private void handleActualizar() {
-        cargarTabla();
-        lblMensaje.setText("Tabla actualizada.");
-    }
-@FXML
-private TableColumn<Categoria, String> colnombreCategoria;
+    private void limpiarFormulario() {
 
+        txtNombre.clear();
+
+        tablaCategoria.getSelectionModel()
+                .clearSelection();
+    }
+
+   @FXML
+    private void handleActualizar() {
+
+        cargarTabla();
+
+        lblMensaje.setText(
+                "Tabla actualizada."
+        );
+    }
+
+ 
     @FXML
     private void handleVolver() {
+
         try {
-            Main.cambiarVista("/org/key/view/MenuPrincipal.fxml");
+
+            Main.cambiarVista(
+                    "/org/key/view/MenuPrincipal.fxml"
+            );
+
         } catch (Exception e) {
-            mostrarError("Error al volver al menú: " + e.getMessage());
+
+            mostrarError(
+                    "Error al volver al menú: "
+                    + e.getMessage()
+            );
         }
     }
 
-    private void limpiarFormulario() {
-        txtNombre.clear();
-    }
-
     private void mostrarError(String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+
+        Alert alert = new Alert(
+                Alert.AlertType.ERROR
+        );
+
         alert.setTitle("Error");
         alert.setHeaderText(null);
         alert.setContentText(mensaje);

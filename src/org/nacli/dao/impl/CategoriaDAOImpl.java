@@ -1,11 +1,11 @@
 package org.nacli.dao.impl;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.nacli.dao.CategoriaDAO;
 import org.nacli.model.Categoria;
@@ -15,90 +15,125 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 
     @Override
     public List<Categoria> listarTodos() {
+
         List<Categoria> categorias = new ArrayList<>();
 
-        String consulta = "{call sp_listarcategorias()}";
+        String sql = "{call sp_listarcategorias()}";
 
-        try (Connection conexion = Conexion.getInstancia().conectar();
-             CallableStatement consultaCall = conexion.prepareCall(consulta);
-             ResultSet tablaResultado = consultaCall.executeQuery()) {
+        try (
+                Connection conexion = Conexion.getInstancia().conectar();
+                CallableStatement cs = conexion.prepareCall(sql);
+                ResultSet rs = cs.executeQuery()) {
 
-            while (tablaResultado.next()) {
-                categorias.add(new Categoria(
-                        tablaResultado.getString("nombreCategoria")
-                ));
+            while (rs.next()) {
+
+                Categoria categoria = new Categoria();
+
+                // SOLO usamos nombre_categoria
+                categoria.setNombreCategoria(
+                        rs.getString("nombre_categoria")
+                );
+
+                categorias.add(categoria);
             }
 
         } catch (SQLException e) {
-            System.err.println("Error al listar categorías: " + e.getMessage());
+
+            System.err.println("ERROR AL LISTAR CATEGORÍAS:");
+            e.printStackTrace();
         }
 
         return categorias;
     }
 
-
     @Override
-public boolean crear(Categoria categoria) {
+    public boolean crear(Categoria categoria) {
 
-    String sql = "INSERT INTO categoria(nombreCategoria) VALUES (?)";
+        String sql = "{call sp_insertarcategoria(?)}";
 
-    try (Connection conexion = Conexion.getInstancia().conectar();
-         java.sql.PreparedStatement ps = conexion.prepareStatement(sql)) {
+        try (
+                Connection conexion = Conexion.getInstancia().conectar();
+                CallableStatement cs = conexion.prepareCall(sql)) {
 
-        ps.setString(1, categoria.getnombreCategoria());
+            cs.setString(
+                    1,
+                    categoria.getNombreCategoria()
+            );
 
-        int resultado = ps.executeUpdate();
+            cs.execute();
 
-        System.out.println("Filas insertadas: " + resultado);
+            System.out.println("Categoría insertada correctamente.");
 
-        return resultado > 0;
+            return true;
 
-    } catch (SQLException e) {
-        System.err.println("ERROR AL INSERTAR:");
-        e.printStackTrace();
-        return false;
+        } catch (SQLException e) {
+
+            System.err.println("ERROR AL INSERTAR CATEGORÍA:");
+            e.printStackTrace();
+
+            return false;
+        }
     }
-}
 
+    /*
+     * Como Categoria ya NO tiene idCategoria,
+     * estos métodos ya no pueden trabajar con un ID.
+     *
+     * Si tu interfaz CategoriaDAO todavía exige estos métodos,
+     * debemos modificar también CategoriaDAO.
+     */
 
     @Override
     public Categoria buscarPorId(int idCategoria) {
 
-        Categoria categoria = new Categoria();
+        String sql = "{call sp_buscarcategoria(?)}";
 
-        String consultaSQL = "{call sp_buscategoria(?)}";
+        try (
+                Connection conexion = Conexion.getInstancia().conectar();
+                CallableStatement cs = conexion.prepareCall(sql)) {
 
-        try (Connection conexion = Conexion.getInstancia().conectar();
-             CallableStatement consultaCall = conexion.prepareCall(consultaSQL)) {
+            cs.setInt(1, idCategoria);
 
-            consultaCall.setInt(1, idCategoria);
+            try (ResultSet rs = cs.executeQuery()) {
 
-            ResultSet tablaResultado = consultaCall.executeQuery();
+                if (rs.next()) {
 
-            if (tablaResultado.next()) {
-                categoria.setnombreCategoria(
-                        tablaResultado.getString("nombreCategoria")
-                );
-            } else {
-                return null;
+                    Categoria categoria = new Categoria();
+
+                    categoria.setNombreCategoria(
+                            rs.getString("nombre_categoria")
+                    );
+
+                    return categoria;
+                }
             }
 
         } catch (SQLException e) {
-            System.err.println("Error al buscar categoría: " + e.getMessage());
+
+            System.err.println("ERROR AL BUSCAR CATEGORÍA:");
+            e.printStackTrace();
         }
 
-        return categoria;
+        return null;
     }
 
-
+    /*
+     * SIN idCategoria no podemos actualizar una categoría
+     * usando su ID.
+     */
     @Override
     public boolean actualizar(Categoria categoria) {
+
         return false;
     }
 
-
+    /*
+     * SIN idCategoria no podemos eliminar una categoría
+     * usando su ID.
+     */
     @Override
     public boolean eliminar(int idCategoria) {
+
         return false;
     }
 }

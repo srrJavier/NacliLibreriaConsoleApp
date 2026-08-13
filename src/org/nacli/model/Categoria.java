@@ -1,56 +1,33 @@
-
 package org.nacli.model;
 
-//POJO: Nombre, atributos, constructores, getters y setters
+/**
+ * POJO de la entidad Categoria.
+ */
 public class Categoria {
 
     private String nombreCategoria;
 
+    // Constructor vacío
+    public Categoria() {
+    }
+
+    // Constructor con parámetros
+    public Categoria(String nombreCategoria) {
+        this.nombreCategoria = nombreCategoria;
+    }
+
+    // Getter
     public String getNombreCategoria() {
         return nombreCategoria;
     }
 
+    // Setter
     public void setNombreCategoria(String nombreCategoria) {
         this.nombreCategoria = nombreCategoria;
     }
 
-    //atributos de clase
-    
-
-
-    //constructores: asignación de datos, instanciar objetos
-    //vacio
-    public Categoria() {
-    }
-    //lleno o con parametros
-    public Categoria(String nombreCategoria) {
-        this.nombreCategoria = nombreCategoria;
-    }
-    //personalizador
-    
-    
-    //getter and setters
-
-    public String getNombre() {        
+    @Override
+    public String toString() {
         return nombreCategoria;
     }
-
-    public void setNombre(String nombre) {
-        //formatear a Mayusucual
-        String nombreMayusculas = nombre.toUpperCase();
-        //formatear a Inicia con Mayusuculas
-        this.nombreCategoria = nombreMayusculas;
-    }
-
-    public void setnombreCategoria(String string) {
-       
-    }
-
-    public String getnombreCategoria() {
-        
-        return null;
-        
-    }
-  
-    
 }

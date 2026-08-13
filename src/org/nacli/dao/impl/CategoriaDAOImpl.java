@@ -83,7 +83,6 @@ public class CategoriaDAOImpl implements CategoriaDAO {
      * debemos modificar también CategoriaDAO.
      */
 
-    @Override
     public Categoria buscarPorId(int idCategoria) {
 
         String sql = "{call sp_buscarcategoria(?)}";
@@ -121,7 +120,6 @@ public class CategoriaDAOImpl implements CategoriaDAO {
      * SIN idCategoria no podemos actualizar una categoría
      * usando su ID.
      */
-    @Override
     public boolean actualizar(Categoria categoria) {
 
         return false;
@@ -131,9 +129,23 @@ public class CategoriaDAOImpl implements CategoriaDAO {
      * SIN idCategoria no podemos eliminar una categoría
      * usando su ID.
      */
-    @Override
     public boolean eliminar(int idCategoria) {
 
         return false;
+    }
+
+    @Override
+    public Categoria buscarPorNombre(String nombreCategoria) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean actualizarPorNombre(String nombreActual, String nuevoNombre) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean eliminarPorNombre(String nombreCategoria) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

@@ -8,15 +8,18 @@ public interface CategoriaDAO {
     // Crear categoría
     boolean crear(Categoria categoria);
 
-    // Listar categorías
+    // Listar todas las categorías
     List<Categoria> listarTodos();
 
-    // Buscar categoría por ID
-    Categoria buscarPorId(int idCategoria);
+    // Buscar categoría por nombre
+    Categoria buscarPorNombre(String nombreCategoria);
 
-    // Actualizar categoría
-    boolean actualizar(Categoria categoria);
+    // Actualizar categoría por nombre
+    boolean actualizarPorNombre(
+            String nombreActual,
+            String nuevoNombre
+    );
 
-    // Eliminar categoría
-    boolean eliminar(int idCategoria);
+    // Eliminar categoría por nombre
+    boolean eliminarPorNombre(String nombreCategoria);
 }

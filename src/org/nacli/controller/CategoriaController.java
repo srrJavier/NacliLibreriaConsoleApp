@@ -16,52 +16,231 @@ public class CategoriaController {
     }
 
     public void iniciar() {
+
         int opcion;
 
         do {
-            opcion = vista.mostrarMenu();
 
-            switch (opcion) {
-                case 1:
-                    break;
+            try {
 
-                case 2:
-                    listar();
-                    break;
+                opcion = vista.mostrarMenu();
 
-                case 3:
-                    buscar();
-                    break;
+                switch (opcion) {
 
-                case 4:
-                    break;
+                    case 1:
+                        crear();
+                        break;
 
-                case 5:
-                    break;
+                    case 2:
+                        listar();
+                        break;
 
-                case 6:
-                    break;
+                    case 3:
+                        buscar();
+                        break;
 
-                default:
-                    vista.mostrarMensaje("Opción no válida.");
+                    case 4:
+                        modificar();
+                        break;
+
+                    case 5:
+                        eliminar();
+                        break;
+
+                    case 6:
+                        vista.mostrarMensaje(
+                                "Regresando al menú principal..."
+                        );
+                        break;
+
+                    default:
+                        vista.mostrarMensaje(
+                                "Opción no válida."
+                        );
+                }
+
+            } catch (NumberFormatException e) {
+
+                vista.mostrarMensaje(
+                        "Debe ingresar un número válido."
+                );
+
+                opcion = 0;
             }
 
         } while (opcion != 6);
     }
 
-    private void listar() {
-        vista.mostrarListaCategorias(dao.listarTodos());
+    // =========================================================
+    // CREAR
+    // =========================================================
+    private void crear() {
+
+        String nombre = vista.solicitarNombreCategoria();
+
+        if (nombre == null || nombre.trim().isEmpty()) {
+
+            vista.mostrarMensaje(
+                    "El nombre de la categoría es obligatorio."
+            );
+
+            return;
+        }
+
+        Categoria categoria = new Categoria();
+
+        categoria.setNombreCategoria(
+                nombre.trim()
+        );
+
+        if (dao.crear(categoria)) {
+
+            vista.mostrarMensaje(
+                    "Categoría creada correctamente."
+            );
+
+        } else {
+
+            vista.mostrarMensaje(
+                    "No fue posible crear la categoría."
+            );
+        }
     }
 
-    private void buscar() {
-        int idCategoria = vista.solicitarIdCategoria();
+    // =========================================================
+    // LISTAR
+    // =========================================================
+    private void listar() {
 
-        Categoria categoria = dao.buscarPorId(idCategoria);
+        vista.mostrarListaCategorias(
+                dao.listarTodos()
+        );
+    }
+
+    // =========================================================
+    // BUSCAR POR NOMBRE
+    // =========================================================
+    private void buscar() {
+
+        String nombre = vista.solicitarNombreCategoria();
+
+        if (nombre == null || nombre.trim().isEmpty()) {
+
+            vista.mostrarMensaje(
+                    "Debe ingresar el nombre de la categoría."
+            );
+
+            return;
+        }
+
+        Categoria categoria = dao.buscarPorNombre(
+                nombre.trim()
+        );
 
         if (categoria != null) {
+
             vista.mostrarCategoria(categoria);
+
         } else {
-            vista.mostrarMensaje("Categoría no encontrada con ID: " + idCategoria);
+
+            vista.mostrarMensaje(
+                    "Categoría no encontrada: " + nombre
+            );
+        }
+    }
+
+    // =========================================================
+    // MODIFICAR
+    // =========================================================
+    private void modificar() {
+
+        String nombreActual
+                = vista.solicitarNombreCategoria();
+
+        if (nombreActual == null
+                || nombreActual.trim().isEmpty()) {
+
+            vista.mostrarMensaje(
+                    "Debe ingresar el nombre actual."
+            );
+
+            return;
+        }
+
+        Categoria categoria
+                = dao.buscarPorNombre(nombreActual.trim());
+
+        if (categoria == null) {
+
+            vista.mostrarMensaje(
+                    "La categoría no existe."
+            );
+
+            return;
+        }
+
+        String nuevoNombre
+                = vista.solicitarNombreCategoria();
+
+        if (nuevoNombre == null
+                || nuevoNombre.trim().isEmpty()) {
+
+            vista.mostrarMensaje(
+                    "El nuevo nombre es obligatorio."
+            );
+
+            return;
+        }
+
+        /*
+         * Como Categoria no tiene ID, el DAO debe tener
+         * un método actualizarPorNombre().
+         */
+        if (dao.actualizarPorNombre(
+                nombreActual.trim(),
+                nuevoNombre.trim())) {
+
+            vista.mostrarMensaje(
+                    "Categoría modificada correctamente."
+            );
+
+        } else {
+
+            vista.mostrarMensaje(
+                    "No fue posible modificar la categoría."
+            );
+        }
+    }
+
+    // =========================================================
+    // ELIMINAR
+    // =========================================================
+    private void eliminar() {
+
+        String nombre
+                = vista.solicitarNombreCategoria();
+
+        if (nombre == null
+                || nombre.trim().isEmpty()) {
+
+            vista.mostrarMensaje(
+                    "Debe ingresar el nombre de la categoría."
+            );
+
+            return;
+        }
+
+        if (dao.eliminarPorNombre(nombre.trim())) {
+
+            vista.mostrarMensaje(
+                    "Categoría eliminada correctamente."
+            );
+
+        } else {
+
+            vista.mostrarMensaje(
+                    "No fue posible eliminar la categoría."
+            );
         }
     }
 }

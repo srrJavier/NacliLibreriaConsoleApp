@@ -13,7 +13,7 @@ public class Autores {
  
     */
     //atributos de clase
-    int id_autor;
+    long id_autor;
     String nombre_autor;
     String nacionalidad;
     String apellido_autor;
@@ -24,7 +24,7 @@ public class Autores {
     public Autores() {
     }
     // lleno con parametros
-    public Autores(int id_autor, String nombre_autor, String nacionalidad, String apellido_autor, String biografia) {
+    public Autores(Long id_autor, String nombre_autor, String nacionalidad, String apellido_autor, String biografia) {
         this.id_autor = id_autor;
         this.nombre_autor = nombre_autor;
         this.nacionalidad = nacionalidad;
@@ -35,11 +35,11 @@ public class Autores {
 
      //getter and setters
  
-    public int getId_autor() {
+    public long getId_autor() {
         return id_autor;
     }
  
-    public void setId_autor(int id_autor) {
+    public void setId_autor(long id_autor) {
         this.id_autor = id_autor;
     }
  

@@ -2,6 +2,7 @@ package org.nacli.controller;
  
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import org.nacli.system.Main;
  
@@ -11,9 +12,11 @@ public class MenuPrincipalController {
     @FXML
     private void handleAutores() {
         try {
-            Main.cambiarVista("/org/nacli/view/AutoView.fxml");
+            Main.cambiarVista("/org/nacli/view/AutorView.fxml");
         } catch (Exception e) {
             mostrarError("Error al cargar la vista de autores:\n" + e.getMessage());
+            e.printStackTrace();
+
         }
     }
  

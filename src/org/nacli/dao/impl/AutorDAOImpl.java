@@ -40,7 +40,7 @@ public class AutorDAOImpl implements AutoresDAO{
         try (Connection conexion = Conexion.getInstancia().conectar(); CallableStatement consultaCall = conexion.prepareCall(consulta); ResultSet tablaResultado = consultaCall.executeQuery();) {
               while(tablaResultado.next()){
                   Autor.add(new Autores(
-                          tablaResultado.getInt("id_autor"),
+                          tablaResultado.getLong("id_autor"),
                           tablaResultado.getString("nombre_autor"),
                           tablaResultado.getString("nacionalidad"),
                           tablaResultado.getString("apellido_autor"),

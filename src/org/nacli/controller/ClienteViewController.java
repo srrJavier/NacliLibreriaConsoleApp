@@ -22,47 +22,35 @@ public class ClienteViewController implements Initializable {
 
     @FXML
     private TextField txtCui;
-
     @FXML
     private TextField txtNombre;
-
     @FXML
     private TextField txtApellido;
-
     @FXML
     private TextField txtCorreo;
-
     @FXML
     private Label lblMensaje;
-
     @FXML
     private TableView<Cliente> tablaClientes;
-
     @FXML
     private TableColumn<Cliente, Long> colCui;
-
     @FXML
     private TableColumn<Cliente, String> colNombre;
-
     @FXML
     private TableColumn<Cliente, String> colApellido;
-
     @FXML
     private TableColumn<Cliente, String> colCorreo;
-
     private final ClienteDAO clienteDAO = new ClienteDaoimpl();
     private final ObservableList<Cliente> listaClientes = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        colCui.setCellValueFactory(new PropertyValueFactory<>("cui"));
-        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        colApellido.setCellValueFactory(new PropertyValueFactory<>("apellido"));
-        colCorreo.setCellValueFactory(new PropertyValueFactory<>("correoElectronico"));
-
+      
+        configurarTabla();
         cargarTabla();
         seleccionarFila();
+        
     }
 
     private void cargarTabla() {
@@ -181,6 +169,13 @@ public class ClienteViewController implements Initializable {
 
         alert.showAndWait();
 
+    }
+
+    private void configurarTabla() {
+      colCui.setCellValueFactory(new PropertyValueFactory<>("cui"));
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colApellido.setCellValueFactory(new PropertyValueFactory<>("apellido"));
+        colCorreo.setCellValueFactory(new PropertyValueFactory<>("correoElectronico"));  
     }
 
 }

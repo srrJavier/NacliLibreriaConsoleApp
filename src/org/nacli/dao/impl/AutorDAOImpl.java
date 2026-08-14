@@ -16,17 +16,17 @@ public class AutorDAOImpl implements AutoresDAO{
  
     @Override
     public boolean insertar(Autores autores) {
-     String consulta = "{call sp_insertarautor(?, ?, ?, ?, ?)}";
+        // sp_insertarautor(_nombre_autor, _apellido_autor, _nacionalidad, _biografia)
+        String consulta = "{call sp_insertarautor(?, ?, ?, ?)}";
         try (Connection conexion = Conexion.getInstancia().conectar();
              CallableStatement consultaCall = conexion.prepareCall(consulta)) {
-            consultaCall.setLong(1, autores.getId_autor());
-            consultaCall.setString(2, autores.getNombre_autor());
+            consultaCall.setString(1, autores.getNombre_autor());
+            consultaCall.setString(2, autores.getApellido_autor());
             consultaCall.setString(3, autores.getNacionalidad());
-            consultaCall.setString(4, autores.getApellido_autor());
-            consultaCall.setString(5, autores.getBiografia());
+            consultaCall.setString(4, autores.getBiografia());
             return consultaCall.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.print("Error al crear Autor: " + e.getMessage());
+            System.err.println("Error al crear Autor: " + e.getMessage());
             return false;
         }
     }
@@ -36,7 +36,7 @@ public class AutorDAOImpl implements AutoresDAO{
         List<Autores> Autor = new ArrayList<>();
         String consulta = "{call sp_listarautores()}";
         try (Connection conexion = Conexion.getInstancia().conectar(); CallableStatement consultaCall = conexion.prepareCall(consulta); ResultSet tablaResultado = consultaCall.executeQuery()) {
-
+ 
             while (tablaResultado.next()) {
                 System.out.println("Autor encontrado en BD: " + tablaResultado.getString("nombre_autor"));
                 Autor.add(new Autores(
@@ -52,7 +52,7 @@ public class AutorDAOImpl implements AutoresDAO{
         }
         return Autor;
     }
-
+ 
     @Override
     public Autores buscarPorId(int id_autor) {
         //objeto
@@ -83,13 +83,34 @@ public class AutorDAOImpl implements AutoresDAO{
         
     @Override
     public boolean actualizar(Autores autores) {
-        return false;
+        // sp_actualizarautor(_id_autor, _nombre_autor, _apellido_autor, _nacionalidad, _biografia)
+        String consulta = "{call sp_actualizarautor(?, ?, ?, ?, ?)}";
+        try (Connection conexion = Conexion.getInstancia().conectar();
+             CallableStatement consultaCall = conexion.prepareCall(consulta)) {
+            consultaCall.setLong(1, autores.getId_autor());
+            consultaCall.setString(2, autores.getNombre_autor());
+            consultaCall.setString(3, autores.getApellido_autor());
+            consultaCall.setString(4, autores.getNacionalidad());
+            consultaCall.setString(5, autores.getBiografia());
+            return consultaCall.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Error al actualizar Autor: " + e.getMessage());
+            return false;
+        }
     }
  
     @Override
     public boolean eliminar(int id_autor) {
-        return false;
+        // sp_eliminarautor(_id_autor)
+        String consulta = "{call sp_eliminarautor(?)}";
+        try (Connection conexion = Conexion.getInstancia().conectar();
+             CallableStatement consultaCall = conexion.prepareCall(consulta)) {
+            consultaCall.setInt(1, id_autor);
+            return consultaCall.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Error al eliminar Autor: " + e.getMessage());
+            return false;
+        }
     }
 }
-    
-
+   

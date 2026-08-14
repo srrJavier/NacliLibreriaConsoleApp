@@ -22,13 +22,13 @@ import org.nacli.system.Main;
 public class AutoresFXController implements Initializable {
 
     @FXML
-    private TextField txtId_autor;
+    private TextField txtId;
 
     @FXML
-    private TextField txtNombre_autor; 
+    private TextField txtNombre; 
 
     @FXML
-    private TextField txtApellido_autor;
+    private TextField txtApellido;
 
     @FXML
     private TextField txtNacionalidad;
@@ -112,14 +112,14 @@ public class AutoresFXController implements Initializable {
                 .addListener(
                         (obs, oldSelection, newSelection) -> {
                             if (newSelection != null) {
-                                if (txtId_autor != null) {
-                                    txtId_autor.setText(String.valueOf(newSelection.getId_autor()));
+                                if (txtId != null) {
+                                    txtId.setText(String.valueOf(newSelection.getId_autor()));
                                 }
-                                if (txtNombre_autor != null) {
-                                    txtNombre_autor.setText(newSelection.getNombre_autor());
+                                if (txtNombre != null) {
+                                    txtNombre.setText(newSelection.getNombre_autor());
                                 }
-                                if (txtApellido_autor != null) {
-                                    txtApellido_autor.setText(newSelection.getApellido_autor());
+                                if (txtApellido != null) {
+                                    txtApellido.setText(newSelection.getApellido_autor());
                                 }
                                 if (txtNacionalidad != null) {
                                     txtNacionalidad.setText(newSelection.getNacionalidad());
@@ -135,14 +135,14 @@ public class AutoresFXController implements Initializable {
     @FXML
     private void handleGuardar() {
         try {
-            if (txtNombre_autor == null) {
+            if (txtNombre == null) {
                 mostrarError("El campo de nombre no está conectado con el FXML.");
                 return;
             }
             
-            String idStr = (txtId_autor != null) ? txtId_autor.getText().trim() : "";
-            String nombre = txtNombre_autor.getText().trim();
-            String apellido = (txtApellido_autor != null) ? txtApellido_autor.getText().trim() : "";
+            String idStr = (txtId != null) ? txtId.getText().trim() : "";
+            String nombre = txtNombre.getText().trim();
+            String apellido = (txtApellido != null) ? txtApellido.getText().trim() : "";
             String nacionalidad = (txtNacionalidad != null) ? txtNacionalidad.getText().trim() : "";
             String biografia = (txtBiografia != null) ? txtBiografia.getText().trim() : "";
 
@@ -208,9 +208,9 @@ public class AutoresFXController implements Initializable {
     }
 
     private void limpiarFormulario() {
-        if (txtId_autor != null) txtId_autor.clear();
-        if (txtNombre_autor != null) txtNombre_autor.clear();
-        if (txtApellido_autor != null) txtApellido_autor.clear();
+        if (txtId != null) txtId.clear();
+        if (txtNombre != null) txtNombre.clear();
+        if (txtApellido != null) txtApellido.clear();
         if (txtNacionalidad != null) txtNacionalidad.clear();
         if (txtBiografia != null) txtBiografia.clear();
     }

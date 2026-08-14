@@ -6,7 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import org.nacli.system.Main;
 
-//falta el extends initilize
+
 public class MenuPrincipalController {
 
     @FXML

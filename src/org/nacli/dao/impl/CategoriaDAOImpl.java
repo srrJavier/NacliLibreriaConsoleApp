@@ -13,6 +13,7 @@ import org.nacli.util.Conexion;
 
 public class CategoriaDAOImpl implements CategoriaDAO {
 
+    // LISTAR TODAS LAS CATEGORÍAS
     @Override
     public List<Categoria> listarTodos() {
 
@@ -21,15 +22,16 @@ public class CategoriaDAOImpl implements CategoriaDAO {
         String sql = "{call sp_listarcategorias()}";
 
         try (
-                Connection conexion = Conexion.getInstancia().conectar();
-                CallableStatement cs = conexion.prepareCall(sql);
-                ResultSet rs = cs.executeQuery()) {
+                Connection conexion
+                = Conexion.getInstancia().conectar(); CallableStatement cs
+                = conexion.prepareCall(sql); ResultSet rs
+                = cs.executeQuery()) {
 
             while (rs.next()) {
 
-                Categoria categoria = new Categoria();
+                Categoria categoria
+                        = new Categoria();
 
-                // SOLO usamos nombre_categoria
                 categoria.setNombreCategoria(
                         rs.getString("nombre_categoria")
                 );
@@ -39,21 +41,27 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 
         } catch (SQLException e) {
 
-            System.err.println("ERROR AL LISTAR CATEGORÍAS:");
+            System.err.println(
+                    "ERROR AL LISTAR CATEGORÍAS:"
+            );
+
             e.printStackTrace();
         }
 
         return categorias;
     }
 
+    // CREAR CATEGORÍA
     @Override
     public boolean crear(Categoria categoria) {
 
-        String sql = "{call sp_insertarcategoria(?)}";
+        String sql
+                = "{call sp_insertarcategoria(?)}";
 
         try (
-                Connection conexion = Conexion.getInstancia().conectar();
-                CallableStatement cs = conexion.prepareCall(sql)) {
+                Connection conexion
+                = Conexion.getInstancia().conectar(); CallableStatement cs
+                = conexion.prepareCall(sql)) {
 
             cs.setString(
                     1,
@@ -62,45 +70,49 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 
             cs.execute();
 
-            System.out.println("Categoría insertada correctamente.");
+            System.out.println(
+                    "Categoría insertada correctamente."
+            );
 
             return true;
 
         } catch (SQLException e) {
 
-            System.err.println("ERROR AL INSERTAR CATEGORÍA:");
+            System.err.println(
+                    "ERROR AL INSERTAR CATEGORÍA:"
+            );
+
             e.printStackTrace();
 
             return false;
         }
     }
 
-    /*
-     * Como Categoria ya NO tiene idCategoria,
-     * estos métodos ya no pueden trabajar con un ID.
-     *
-     * Si tu interfaz CategoriaDAO todavía exige estos métodos,
-     * debemos modificar también CategoriaDAO.
-     */
-
+    // BUSCAR POR ID
     public Categoria buscarPorId(int idCategoria) {
 
-        String sql = "{call sp_buscarcategoria(?)}";
+        String sql
+                = "{call sp_buscarcategoria(?)}";
 
         try (
-                Connection conexion = Conexion.getInstancia().conectar();
-                CallableStatement cs = conexion.prepareCall(sql)) {
+                Connection conexion
+                = Conexion.getInstancia().conectar(); CallableStatement cs
+                = conexion.prepareCall(sql)) {
 
             cs.setInt(1, idCategoria);
 
-            try (ResultSet rs = cs.executeQuery()) {
+            try (ResultSet rs
+                    = cs.executeQuery()) {
 
                 if (rs.next()) {
 
-                    Categoria categoria = new Categoria();
+                    Categoria categoria
+                            = new Categoria();
 
                     categoria.setNombreCategoria(
-                            rs.getString("nombre_categoria")
+                            rs.getString(
+                                    "nombre_categoria"
+                            )
                     );
 
                     return categoria;
@@ -109,43 +121,147 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 
         } catch (SQLException e) {
 
-            System.err.println("ERROR AL BUSCAR CATEGORÍA:");
+            System.err.println(
+                    "ERROR AL BUSCAR CATEGORÍA:"
+            );
+
             e.printStackTrace();
         }
 
         return null;
     }
 
-    /*
-     * SIN idCategoria no podemos actualizar una categoría
-     * usando su ID.
-     */
+    // ACTUALIZAR POR ID
     public boolean actualizar(Categoria categoria) {
 
         return false;
     }
 
-    /*
-     * SIN idCategoria no podemos eliminar una categoría
-     * usando su ID.
-     */
+    // ELIMINAR POR ID
     public boolean eliminar(int idCategoria) {
 
         return false;
     }
 
+    // BUSCAR POR NOMBRE
     @Override
-    public Categoria buscarPorNombre(String nombreCategoria) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Categoria buscarPorNombre(
+            String nombreCategoria) {
+
+        String sql
+                = "{call sp_buscarnombrecategoria(?)}";
+
+        try (
+                Connection conexion
+                = Conexion.getInstancia().conectar(); CallableStatement cs
+                = conexion.prepareCall(sql)) {
+
+            cs.setString(
+                    1,
+                    nombreCategoria
+            );
+
+            try (ResultSet rs
+                    = cs.executeQuery()) {
+
+                if (rs.next()) {
+
+                    Categoria categoria
+                            = new Categoria();
+
+                    categoria.setNombreCategoria(
+                            rs.getString(
+                                    "nombre_categoria"
+                            )
+                    );
+
+                    return categoria;
+                }
+            }
+
+        } catch (SQLException e) {
+
+            System.err.println(
+                    "ERROR AL BUSCAR CATEGORÍA POR NOMBRE:"
+            );
+
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
+    // ACTUALIZAR POR NOMBRE
     @Override
-    public boolean actualizarPorNombre(String nombreActual, String nuevoNombre) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean actualizarPorNombre(
+            String nombreActual,
+            String nuevoNombre) {
+
+        String sql
+                = "{call sp_actualizarcategoria(?, ?)}";
+
+        try (
+                Connection conexion
+                = Conexion.getInstancia().conectar(); CallableStatement cs
+                = conexion.prepareCall(sql)) {
+
+            cs.setString(
+                    1,
+                    nombreActual
+            );
+
+            cs.setString(
+                    2,
+                    nuevoNombre
+            );
+
+            cs.execute();
+
+            return true;
+
+        } catch (SQLException e) {
+
+            System.err.println(
+                    "ERROR AL ACTUALIZAR CATEGORÍA:"
+            );
+
+            e.printStackTrace();
+
+            return false;
+        }
     }
 
+    // ELIMINAR POR NOMBRE
     @Override
-    public boolean eliminarPorNombre(String nombreCategoria) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean eliminarPorNombre(
+            String nombreCategoria) {
+
+        String sql
+                = "{call sp_eliminarcategoria(?)}";
+
+        try (
+                Connection conexion
+                = Conexion.getInstancia().conectar(); CallableStatement cs
+                = conexion.prepareCall(sql)) {
+
+            cs.setString(
+                    1,
+                    nombreCategoria
+            );
+
+            cs.execute();
+
+            return true;
+
+        } catch (SQLException e) {
+
+            System.err.println(
+                    "ERROR AL ELIMINAR CATEGORÍA:"
+            );
+
+            e.printStackTrace();
+
+            return false;
+        }
     }
 }

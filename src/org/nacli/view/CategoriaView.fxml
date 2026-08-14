@@ -10,12 +10,12 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nacli.controller.CategoriaFXController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #D9D9D9;" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nacli.controller.CategoriaFXController">
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>
    <left>
-      <VBox minHeight="300.0" minWidth="300.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
+      <VBox minHeight="300.0" minWidth="300.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0" style="-fx-background-color: #D9D9D9;" BorderPane.alignment="CENTER">
          <padding>
             <Insets right="20.0" />
          </padding>
@@ -24,8 +24,8 @@
             <TextField fx:id="txtNombre" promptText="Nombre Categoria" />
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <Button fx:id="handleGuardar" mnemonicParsing="false" onAction="#handleGuardar" prefWidth="120.0" text="Guardar" />
-                  <Button fx:id="handleLimpiar" mnemonicParsing="false" onAction="#handleLimpiar" prefWidth="120.0" text="Limpiar" />
+                  <Button fx:id="handleGuardar" mnemonicParsing="false" onAction="#handleGuardar" prefWidth="120.0" style="-fx-background-color: #F5F5F5;" text="Guardar" />
+                  <Button fx:id="handleLimpiar" mnemonicParsing="false" onAction="#handleLimpiar" prefWidth="120.0" style="-fx-background-color: #F5F5F5;" text="Limpiar" />
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
@@ -40,15 +40,18 @@
       <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
             <Label style="-fx-font-size: 18; -fx-font-weight: bold;" text="Lista de categorias" />
-            <TableView fx:id="tablaCategoria" prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="tablaCategoria" cache="true" prefHeight="200.0" prefWidth="200.0">
               <columns>
                 <TableColumn fx:id="colnombreCategoria" prefWidth="260.0" text="Nombre De Las Categorias" />
               </columns>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
             </TableView>
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <Button fx:id="handleActualizar" mnemonicParsing="false" onAction="#handleActualizar" text="Actualizar Tabla" />
-                  <Button fx:id="handleVolver" mnemonicParsing="false" onAction="#handleVolver" text="Volver al Menú" />
+                  <Button fx:id="handleActualizar" mnemonicParsing="false" onAction="#handleActualizar" style="-fx-background-color: #F5F5F5;" text="Actualizar Tabla" />
+                  <Button fx:id="handleVolver" mnemonicParsing="false" onAction="#handleVolver" style="-fx-background-color: #F5F5F5;" text="Volver al Menú" />
                </children>
             </HBox>
          </children>

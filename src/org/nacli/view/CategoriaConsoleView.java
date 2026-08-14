@@ -8,9 +8,7 @@ public class CategoriaConsoleView {
 
     private final Scanner leer = new Scanner(System.in);
 
-    // =========================================================
     // MENÚ
-    // =========================================================
     public int mostrarMenu() {
 
         System.out.println();

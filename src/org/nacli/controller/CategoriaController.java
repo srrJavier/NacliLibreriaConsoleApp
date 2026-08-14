@@ -71,9 +71,7 @@ public class CategoriaController {
         } while (opcion != 6);
     }
 
-    // =========================================================
     // CREAR
-    // =========================================================
     private void crear() {
 
         String nombre = vista.solicitarNombreCategoria();
@@ -107,9 +105,7 @@ public class CategoriaController {
         }
     }
 
-    // =========================================================
     // LISTAR
-    // =========================================================
     private void listar() {
 
         vista.mostrarListaCategorias(
@@ -117,9 +113,7 @@ public class CategoriaController {
         );
     }
 
-    // =========================================================
     // BUSCAR POR NOMBRE
-    // =========================================================
     private void buscar() {
 
         String nombre = vista.solicitarNombreCategoria();
@@ -149,9 +143,7 @@ public class CategoriaController {
         }
     }
 
-    // =========================================================
     // MODIFICAR
-    // =========================================================
     private void modificar() {
 
         String nombreActual
@@ -212,9 +204,7 @@ public class CategoriaController {
         }
     }
 
-    // =========================================================
     // ELIMINAR
-    // =========================================================
     private void eliminar() {
 
         String nombre

@@ -35,8 +35,8 @@ public class CategoriaFXController implements Initializable {
 
     private final CategoriaDAO categoriaDAO = new CategoriaDAOImpl();
 
-    private final ObservableList<Categoria> listaCategoria =
-            FXCollections.observableArrayList();
+    private final ObservableList<Categoria> listaCategoria
+            = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -72,7 +72,7 @@ public class CategoriaFXController implements Initializable {
         }
     }
 
-  private void seleccionarFila() {
+    private void seleccionarFila() {
 
         tablaCategoria.getSelectionModel()
                 .selectedItemProperty()
@@ -153,7 +153,7 @@ public class CategoriaFXController implements Initializable {
                 .clearSelection();
     }
 
-   @FXML
+    @FXML
     private void handleActualizar() {
 
         cargarTabla();
@@ -163,7 +163,6 @@ public class CategoriaFXController implements Initializable {
         );
     }
 
- 
     @FXML
     private void handleVolver() {
 

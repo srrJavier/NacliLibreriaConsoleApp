@@ -12,7 +12,7 @@ public class MenuPrincipalController {
     @FXML
     private void handleAutores() {
         try {
-            Main.cambiarVista("/org/nacli/view/AutorView.fxml");
+            Main.cambiarVista("/org/nacli/view/AutorView.fxml");     
         } catch (Exception e) {
             mostrarError("Error al cargar la vista de autores:\n" + e.getMessage());
             e.printStackTrace();

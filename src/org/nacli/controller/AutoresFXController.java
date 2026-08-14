@@ -25,7 +25,7 @@ public class AutoresFXController implements Initializable {
     private TextField txtId_autor;
 
     @FXML
-    private TextField txtNombre_autor;
+    private TextField txtNombre_autor; 
 
     @FXML
     private TextField txtApellido_autor;
@@ -64,68 +64,45 @@ public class AutoresFXController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         configurarTabla();
         cargarTabla();
         seleccionarFila();
     }
 
     private void configurarTabla() {
-
         if (colId != null) {
-            colId.setCellValueFactory(
-                    new PropertyValueFactory<>("id_autor")
-            );
+            colId.setCellValueFactory(new PropertyValueFactory<>("id_autor"));
         }
-
         if (colNombre != null) {
-            colNombre.setCellValueFactory(
-                    new PropertyValueFactory<>("nombre_autor")
-            );
+            colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre_autor"));
         }
-
         if (colApellido != null) {
-            colApellido.setCellValueFactory(
-                    new PropertyValueFactory<>("apellido_autor")
-            );
+            colApellido.setCellValueFactory(new PropertyValueFactory<>("apellido_autor"));
         }
-
         if (colNacionalidad != null) {
-            colNacionalidad.setCellValueFactory(
-                    new PropertyValueFactory<>("nacionalidad")
-            );
+            colNacionalidad.setCellValueFactory(new PropertyValueFactory<>("nacionalidad"));
         }
-
         if (colBiografia != null) {
-            colBiografia.setCellValueFactory(
-                    new PropertyValueFactory<>("biografia")
-            );
+            colBiografia.setCellValueFactory(new PropertyValueFactory<>("biografia"));
         }
     }
 
     private void cargarTabla() {
-
         try {
-
-            listaAutores.setAll(
-                    autoresDAO.listarTodos()
-            );
-
+            listaAutores.clear();
+            listaAutores.addAll(autoresDAO.listarTodos());
             if (tablaAutores != null) {
                 tablaAutores.setItems(listaAutores);
+                tablaAutores.refresh(); 
+            } else {
+                System.err.println("Error: tablaAutores es nulo (no está inyectado desde el FXML).");
             }
-
         } catch (Exception e) {
-
-            mostrarError(
-                    "Error al cargar autores: "
-                    + e.getMessage()
-            );
+            mostrarError("Error al cargar autores: " + e.getMessage());
         }
     }
 
     private void seleccionarFila() {
-
         if (tablaAutores == null) {
             return;
         }
@@ -134,39 +111,21 @@ public class AutoresFXController implements Initializable {
                 .selectedItemProperty()
                 .addListener(
                         (obs, oldSelection, newSelection) -> {
-
                             if (newSelection != null) {
-
                                 if (txtId_autor != null) {
-                                    txtId_autor.setText(
-                                            String.valueOf(
-                                                    newSelection.getId_autor()
-                                            )
-                                    );
+                                    txtId_autor.setText(String.valueOf(newSelection.getId_autor()));
                                 }
-
                                 if (txtNombre_autor != null) {
-                                    txtNombre_autor.setText(
-                                            newSelection.getNombre_autor()
-                                    );
+                                    txtNombre_autor.setText(newSelection.getNombre_autor());
                                 }
-
                                 if (txtApellido_autor != null) {
-                                    txtApellido_autor.setText(
-                                            newSelection.getApellido_autor()
-                                    );
+                                    txtApellido_autor.setText(newSelection.getApellido_autor());
                                 }
-
                                 if (txtNacionalidad != null) {
-                                    txtNacionalidad.setText(
-                                            newSelection.getNacionalidad()
-                                    );
+                                    txtNacionalidad.setText(newSelection.getNacionalidad());
                                 }
-
                                 if (txtBiografia != null) {
-                                    txtBiografia.setText(
-                                            newSelection.getBiografia()
-                                    );
+                                    txtBiografia.setText(newSelection.getBiografia());
                                 }
                             }
                         }
@@ -175,102 +134,57 @@ public class AutoresFXController implements Initializable {
 
     @FXML
     private void handleGuardar() {
-
         try {
-
-            if (txtId_autor == null
-                    || txtNombre_autor == null
-                    || txtApellido_autor == null
-                    || txtNacionalidad == null
-                    || txtBiografia == null) {
-
-                mostrarError(
-                        "Los campos del formulario no están conectados con el FXML."
-                );
-
+            if (txtNombre_autor == null) {
+                mostrarError("El campo de nombre no está conectado con el FXML.");
                 return;
             }
+            
+            String idStr = (txtId_autor != null) ? txtId_autor.getText().trim() : "";
+            String nombre = txtNombre_autor.getText().trim();
+            String apellido = (txtApellido_autor != null) ? txtApellido_autor.getText().trim() : "";
+            String nacionalidad = (txtNacionalidad != null) ? txtNacionalidad.getText().trim() : "";
+            String biografia = (txtBiografia != null) ? txtBiografia.getText().trim() : "";
 
-            if (txtId_autor.getText().isEmpty()
-                    || txtNombre_autor.getText().isEmpty()
-                    || txtApellido_autor.getText().isEmpty()
-                    || txtNacionalidad.getText().isEmpty()
-                    || txtBiografia.getText().isEmpty()) {
-
-                mostrarError(
-                        "Todos los campos son obligatorios."
-                );
-
+            if (nombre.isBlank() || apellido.isBlank() || nacionalidad.isBlank()) {
+                mostrarError("Por favor, completa los campos obligatorios (Nombre, Apellido, Nacionalidad).");
                 return;
             }
 
             Autores autor = new Autores();
 
-            autor.setId_autor(
-                    Integer.parseInt(
-                            txtId_autor.getText().trim()
-                    )
-            );
+            if (!idStr.isBlank()) {
+                autor.setId_autor(Integer.parseInt(idStr));
+            }
 
-            autor.setNombre_autor(
-                    txtNombre_autor.getText().trim()
-            );
-
-            autor.setApellido_autor(
-                    txtApellido_autor.getText().trim()
-            );
-
-            autor.setNacionalidad(
-                    txtNacionalidad.getText().trim()
-            );
-
-            autor.setBiografia(
-                    txtBiografia.getText().trim()
-            );
+            autor.setNombre_autor(nombre);
+            autor.setApellido_autor(apellido);
+            autor.setNacionalidad(nacionalidad);
+            autor.setBiografia(biografia);
 
             if (autoresDAO.insertar(autor)) {
-
                 if (lblMensaje != null) {
-                    lblMensaje.setText(
-                            "Autor registrado exitosamente."
-                    );
+                    lblMensaje.setText("Autor registrado exitosamente.");
                 }
-
                 cargarTabla();
                 limpiarFormulario();
-
             } else {
-
-                mostrarError(
-                        "No se pudo registrar el autor."
-                );
+                mostrarError("No se pudo registrar el autor en la base de datos.");
             }
 
         } catch (NumberFormatException e) {
-
-            mostrarError(
-                    "El ID debe ser un número válido."
-            );
-
+            mostrarError("El ID debe ser un número entero válido.");
         } catch (Exception e) {
-
-            mostrarError(
-                    "Error al guardar: "
-                    + e.getMessage()
-            );
+            mostrarError("Error al guardar: " + e.getMessage());
         }
     }
 
     @FXML
     private void handleLimpiar() {
-
         limpiarFormulario();
-
         if (tablaAutores != null) {
-            tablaAutores.getSelectionModel()
-                    .clearSelection();
+            tablaAutores.getSelectionModel().clearSelection();
         }
-
         if (lblMensaje != null) {
             lblMensaje.setText("");
         }
@@ -278,63 +192,31 @@ public class AutoresFXController implements Initializable {
 
     @FXML
     private void handleActualizar() {
-
         cargarTabla();
-
         if (lblMensaje != null) {
-            lblMensaje.setText(
-                    "Tabla actualizada."
-            );
+            lblMensaje.setText("Tabla actualizada.");
         }
     }
 
     @FXML
     private void handleVolver() {
-
         try {
-
-            Main.cambiarVista(
-                    "/org/nacli/view/MenuPrincipal.fxml"
-            );
-
+            Main.cambiarVista("/org/nacli/view/MenuPrincipal.fxml");
         } catch (Exception e) {
-
-            mostrarError(
-                    "Error al volver al menú: "
-                    + e.getMessage()
-            );
+            mostrarError("Error al volver al menú: " + e.getMessage());
         }
     }
 
     private void limpiarFormulario() {
-
-        if (txtId_autor != null) {
-            txtId_autor.clear();
-        }
-
-        if (txtNombre_autor != null) {
-            txtNombre_autor.clear();
-        }
-
-        if (txtApellido_autor != null) {
-            txtApellido_autor.clear();
-        }
-
-        if (txtNacionalidad != null) {
-            txtNacionalidad.clear();
-        }
-
-        if (txtBiografia != null) {
-            txtBiografia.clear();
-        }
+        if (txtId_autor != null) txtId_autor.clear();
+        if (txtNombre_autor != null) txtNombre_autor.clear();
+        if (txtApellido_autor != null) txtApellido_autor.clear();
+        if (txtNacionalidad != null) txtNacionalidad.clear();
+        if (txtBiografia != null) txtBiografia.clear();
     }
 
     private void mostrarError(String mensaje) {
-
-        Alert alert = new Alert(
-                Alert.AlertType.ERROR
-        );
-
+        Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText(null);
         alert.setContentText(mensaje);

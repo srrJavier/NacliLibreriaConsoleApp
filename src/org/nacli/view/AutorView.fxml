@@ -18,15 +18,15 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <TextField promptText="ID" />
-            <TextField promptText="Nombre" />
-            <TextField promptText="Apellido" />
-            <TextField promptText="Nacionalidad" />
-            <TextField promptText="Biografia" />
+            <TextField fx:id="txtId" promptText="ID" />
+            <TextField fx:id="txtNombre" promptText="Nombre" />
+            <TextField fx:id="txtApellido" promptText="Apellido" />
+            <TextField fx:id="txtNacionalidad" promptText="Nacionalidad" />
+            <TextField fx:id="txtBiografia" promptText="Biografia" />
             <HBox prefHeight="92.0" prefWidth="267.0" spacing="10.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#handleGuardar" prefWidth="120.0" text="Guardar" />
-                  <Button mnemonicParsing="false" onAction="#handleLimpiar" prefWidth="120.0" text="Limpiar" />
+                  <Button fx:id="handleGuardar" mnemonicParsing="false" onAction="#handleGuardar" prefWidth="120.0" text="Guardar" />
+                  <Button fx:id="handleLimpiar" mnemonicParsing="false" onAction="#handleLimpiar" prefWidth="120.0" text="Limpiar" />
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
@@ -45,9 +45,9 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <TableView fx:id="tablaAutor" prefHeight="200.0" prefWidth="331.0">
+            <TableView fx:id="tablaAutores" prefHeight="200.0" prefWidth="331.0">
               <columns>
-                <TableColumn fx:id="colId" prefWidth="100.0" text="ID" />
+                <TableColumn fx:id="colId" prefWidth="100.0" text="Id" />
                 <TableColumn fx:id="colNombre" prefWidth="120.0" text="Nombre" />
                   <TableColumn fx:id="colApellido" minWidth="20.0" prefWidth="120.0" text="Apellido" />
                   <TableColumn fx:id="colNacionalidad" minWidth="20.0" prefWidth="120.0" text="Nacionalidad" />

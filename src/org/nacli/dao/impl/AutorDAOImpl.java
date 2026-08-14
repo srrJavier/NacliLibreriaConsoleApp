@@ -32,29 +32,27 @@ public class AutorDAOImpl implements AutoresDAO{
     }
  
     @Override
-    public List<Autores> listarTodos() {      
+    public List<Autores> listarTodos() {
         List<Autores> Autor = new ArrayList<>();
+        String consulta = "{call sp_listarautores()}";
+        try (Connection conexion = Conexion.getInstancia().conectar(); CallableStatement consultaCall = conexion.prepareCall(consulta); ResultSet tablaResultado = consultaCall.executeQuery()) {
 
-        //CREAR NUESTRA CONSULTA
-        String consulta = "{call sp_listarautores()}";              
-        try (Connection conexion = Conexion.getInstancia().conectar(); CallableStatement consultaCall = conexion.prepareCall(consulta); ResultSet tablaResultado = consultaCall.executeQuery();) {
-              while(tablaResultado.next()){
-                  Autor.add(new Autores(
-                          tablaResultado.getLong("id_autor"),
-                          tablaResultado.getString("nombre_autor"),
-                          tablaResultado.getString("nacionalidad"),
-                          tablaResultado.getString("apellido_autor"),
-                          tablaResultado.getString("biografia")
-                  ));
-              }
-        }catch (SQLException e){
+            while (tablaResultado.next()) {
+                System.out.println("Autor encontrado en BD: " + tablaResultado.getString("nombre_autor"));
+                Autor.add(new Autores(
+                        tablaResultado.getLong("id_autor"),
+                        tablaResultado.getString("nombre_autor"),
+                        tablaResultado.getString("apellido_autor"),
+                        tablaResultado.getString("nacionalidad"),
+                        tablaResultado.getString("biografia")
+                ));
+            }
+        } catch (SQLException e) {
             System.err.println("ERROR al listar Autores:" + e.getMessage());
-        }        
-
-        //retornamos una lista
+        }
         return Autor;
     }
- 
+
     @Override
     public Autores buscarPorId(int id_autor) {
         //objeto

@@ -1,14 +1,14 @@
 package org.nacli.view;
-
+ 
 import java.util.Scanner;
-
+import org.nacli.controller.ClienteController;
 import org.nacli.controller.AutoresController;
  
 public class MenuPrincipal {
-
+ 
     Scanner leer = new Scanner(System.in);
  
-    public void iniciar(){
+    public void iniciar() {
  
         int opcion = 0;
  
@@ -31,51 +31,44 @@ public class MenuPrincipal {
             switch (opcion) {
  
                 case 1:
- 
                     System.out.println("Cliente");
+ 
+                    ClienteConsoleView vistaCliente = new ClienteConsoleView();
+                    ClienteController controladorCliente = new ClienteController(vistaCliente);
+                    controladorCliente.iniciar();
  
                     break;
  
                 case 2:
- 
                     System.out.println("Autor");
-
+ 
                     AutoresConsoleView vistaAutores = new AutoresConsoleView();
- 
                     AutoresController controladorAutores = new AutoresController(vistaAutores);
- 
                     controladorAutores.iniciar();
-
+ 
                     break;
  
                 case 3:
- 
                     System.out.println("Categoria");
  
                     break;
  
                 case 4:
- 
                     System.out.println("Adiós Vaquero!");
  
-                    break;   
+                    break;
  
                 case 5:
- 
                     System.out.println("Editoriales");
  
                     break;
  
                 default:
- 
                     System.out.println("NO existe esta opción");
- 
             }
  
         } while (opcion != 4);
-
+ 
     }
  
 }
-
- 

@@ -1,39 +1,58 @@
-
 package org.nacli.system;
-
+ 
 import javafx.application.Application;
+
 import javafx.fxml.FXMLLoader;
+
 import javafx.scene.Parent;
+
 import javafx.scene.Scene;
+
 import javafx.stage.Stage;
-
+ 
 public class Main extends Application {
-
+ 
     private static Stage escenarioPrincipal;
+ 
+    @Override
 
- @Override
-public void start(Stage escenarioPrincipal) throws Exception {
-    Main.escenarioPrincipal = escenarioPrincipal;
+    public void start(Stage escenarioPrincipal) throws Exception {
 
-    FXMLLoader loader = new FXMLLoader(
-            getClass().getResource("/org/nacli/view/MenuPrincipal.fxml"));
+        Main.escenarioPrincipal = escenarioPrincipal;
+ 
+        FXMLLoader loader = new FXMLLoader(
 
-    Parent root = loader.load();
+                getClass().getResource("/org/nacli/view/MenuPrincipal.fxml")
 
-    Scene scene = new Scene(root);
-    escenarioPrincipal.setTitle("Nacli Librería");
-    escenarioPrincipal.setScene(scene);
-    escenarioPrincipal.show();
-}
-
-    public static void cambiarVista(String fxmlPath) throws Exception {
-        FXMLLoader loader = new FXMLLoader(Main.class.getResource(fxmlPath));
+        );
+ 
         Parent root = loader.load();
-        escenarioPrincipal.setScene(new Scene(root));
-    }
+ 
+        Scene scene = new Scene(root);
+ 
+        escenarioPrincipal.setTitle("Nacli Librería");
 
+        escenarioPrincipal.setScene(scene);
+
+        escenarioPrincipal.show();
+
+    }
+ 
+    public static void cambiarVista(String fxmlPath) throws Exception {
+
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource(fxmlPath));
+ 
+        Parent root = loader.load();
+ 
+        escenarioPrincipal.setScene(new Scene(root));
+
+    }
+ 
     public static void main(String[] args) {
+
         launch(args);
+
     }
 
 }
+ 
